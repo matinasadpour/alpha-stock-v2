@@ -1,8 +1,6 @@
-Remember before update:
-[] change source links
+# Alpha Stock V2
 
-fix:
-[] upload component
-
-feat:
-[] barcode input language converter
+##### Remember Before Deploy
+- change file paths
+  - dist directory: Replace ```/home/matin/Documents/projects/alpha-stock/dist``` with ```.```
+  - assets directory -> index.css: Replace ```./font``` with ```../font```
