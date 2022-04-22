@@ -1,58 +1,55 @@
 <script setup>
-import { computed } from 'vue'
-import { mdiClose } from '@mdi/js'
-import JbButton from '@/components/JbButton.vue'
-import JbButtons from '@/components/JbButtons.vue'
-import CardComponent from '@/components/CardComponent.vue'
-import Divider from '@/components/Divider.vue'
-import Overlay from '@/components/Overlay.vue'
+import { computed } from 'vue';
+import { mdiClose } from '@mdi/js';
+import JbButton from '@/components/JbButton.vue';
+import JbButtons from '@/components/JbButtons.vue';
+import CardComponent from '@/components/CardComponent.vue';
+import Divider from '@/components/Divider.vue';
+import Overlay from '@/components/Overlay.vue';
 
 const props = defineProps({
   title: {
     type: String,
-    default: null
+    default: null,
   },
   largeTitle: {
     type: String,
-    default: null
+    default: null,
   },
   button: {
     type: String,
-    default: 'info'
+    default: 'info',
   },
   buttonLabel: {
     type: String,
-    default: 'Done'
+    default: 'اوکی',
   },
   hasCancel: Boolean,
   modelValue: {
     type: [String, Number, Boolean],
-    default: null
-  }
-})
+    default: null,
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'cancel', 'confirm'])
+const emit = defineEmits(['update:modelValue', 'cancel', 'confirm']);
 
 const value = computed({
   get: () => props.modelValue,
-  set: value => emit('update:modelValue', value)
-})
+  set: (value) => emit('update:modelValue', value),
+});
 
-const confirmCancel = mode => {
-  value.value = false
-  emit(mode)
-}
+const confirmCancel = (mode) => {
+  value.value = false;
+  emit(mode);
+};
 
-const confirm = () => confirmCancel('confirm')
+const confirm = () => confirmCancel('confirm');
 
-const cancel = () => confirmCancel('cancel')
+const cancel = () => confirmCancel('cancel');
 </script>
 
 <template>
-  <overlay
-    v-show="value"
-    @overlay-click="cancel"
-  >
+  <overlay v-show="value" @overlay-click="cancel">
     <card-component
       v-show="value"
       :title="title"
@@ -63,10 +60,7 @@ const cancel = () => confirmCancel('cancel')
       @header-icon-click="cancel"
     >
       <div class="space-y-3">
-        <h1
-          v-if="largeTitle"
-          class="text-2xl"
-        >
+        <h1 v-if="largeTitle" class="text-2xl">
           {{ largeTitle }}
         </h1>
         <slot />
@@ -75,14 +69,10 @@ const cancel = () => confirmCancel('cancel')
       <divider />
 
       <jb-buttons>
-        <jb-button
-          :label="buttonLabel"
-          :color="button"
-          @click="confirm"
-        />
+        <jb-button :label="buttonLabel" :color="button" @click="confirm" />
         <jb-button
           v-if="hasCancel"
-          label="Cancel"
+          label="کنسل"
           :color="button"
           outline
           @click="cancel"

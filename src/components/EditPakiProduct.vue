@@ -171,13 +171,7 @@ const submit = async () => {
       color: 'success',
     });
   } catch (error) {
-    window.log(error);
-    if (error.response) {
-      $store.dispatch('notif', {
-        message: error.response.data.code + ' | ' + error.response.data.code,
-        color: 'danger',
-      });
-    }
+    $store.dispatch('error', error);
   }
   loader.hide();
 };

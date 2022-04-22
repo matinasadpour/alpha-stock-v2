@@ -13,6 +13,6 @@ window.api = api;
 window.log = (log) => {
   fs.appendFileSync(
     './alpha-stock/error',
-    `[${new Date()}] ${log.toString()}\n`
+    `[${new Date().toLocaleString()}] ${log.toString()}\n`
   );
 };

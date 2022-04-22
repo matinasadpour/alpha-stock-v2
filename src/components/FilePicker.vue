@@ -32,13 +32,13 @@ const props = defineProps({
   canSubmit: Boolean,
 });
 
-const store = useStore();
+const $store = useStore();
 
 const $loading = useLoading();
 
 const emit = defineEmits(['update:modelValue', 'uploaded']);
 
-const token = computed(() => store.state.token);
+const token = computed(() => $store.state.token);
 
 const root = ref(null);
 
@@ -118,12 +118,7 @@ const upload = async (file) => {
     );
     return res.data.source_url;
   } catch (error) {
-    if (error.response) {
-      store.dispatch('notif', {
-        message: error.response.data.code + ' | ' + error.response.data.code,
-        color: 'danger',
-      });
-    }
+    $store.dispatch('error', error);
   }
 };
 

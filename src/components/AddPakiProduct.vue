@@ -19,11 +19,11 @@ import JbButtons from '@/components/JbButtons.vue';
 import CheckboxCell from '@/components/CheckboxCell.vue';
 import FilePicker from '@/components/FilePicker.vue';
 
+const $store = useStore();
+
 const $loading = useLoading();
 
-const store = useStore();
-
-const productAttributes = computed(() => store.state.attrs);
+const productAttributes = computed(() => $store.state.attrs);
 
 const canSubmit = ref(true);
 
@@ -129,18 +129,12 @@ const submit = async () => {
       create: varis,
     });
     clear();
-    store.dispatch('notif', {
+    $store.dispatch('notif', {
       message: 'محصول با موفقیت اضافه شد.',
       color: 'success',
     });
   } catch (error) {
-    window.log(error);
-    if (error.response) {
-      store.dispatch('notif', {
-        message: error.response.data.code + ' | ' + error.response.data.code,
-        color: 'danger',
-      });
-    }
+    $store.dispatch('error', error);
   }
   loader.hide();
 };

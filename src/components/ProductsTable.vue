@@ -10,6 +10,7 @@ import {
   mdiChevronLeft,
   mdiChevronDoubleLeft,
   mdiChevronDoubleRight,
+  mdiTrashCan,
 } from '@mdi/js';
 import ModalBox from '@/components/ModalBox.vue';
 import Level from '@/components/Level.vue';
@@ -62,6 +63,30 @@ watch(currentPage, async () => {
 
 const numPages = computed(() => data.value.headers['x-wp-totalpages']);
 
+const deletedProduct = ref(null);
+
+const deleteProduct = async () => {
+  const loader = $loading.show({
+    color: '#ffffff',
+    backgroundColor: '#000000',
+    canCancel: true,
+  });
+  try {
+    await window.api.delete(`products/${deletedProduct.value.id}`);
+    $store.dispatch('notif', {
+      message: 'محصول با موفقیت حذف شد.',
+      color: 'success',
+    });
+    items.value.splice(
+      items.value.findIndex((obj) => obj.id === deletedProduct.value.id),
+      1
+    );
+  } catch (error) {
+    $store.dispatch('error', error);
+  }
+  loader.hide();
+};
+
 const showPrice = (num) => {
   let str = num.toString().split('.');
   str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -83,13 +108,19 @@ const showPrice = (num) => {
   </modal-box>
 
   <modal-box
+    v-if="isModalDangerActive"
     v-model="isModalDangerActive"
-    large-title="Please confirm"
+    large-title="حذف کردن محصول"
     button="danger"
     has-cancel
+    buttonLabel="بله"
+    @confirm="deleteProduct"
+    @cancel="deletedProduct = null"
   >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <p>
+      آیا می خواهید محصول
+      <b>{{ deletedProduct.name }} (ID:{{ deletedProduct.id }})</b> را حذف کنید؟
+    </p>
   </modal-box>
 
   <table>
@@ -141,6 +172,15 @@ const showPrice = (num) => {
                   name: 'editProduct',
                   params: { item: JSON.stringify(item) },
                 })
+              "
+            />
+            <jb-button
+              color="danger"
+              :icon="mdiTrashCan"
+              small
+              @click="
+                isModalDangerActive = true;
+                deletedProduct = item;
               "
             />
           </jb-buttons>

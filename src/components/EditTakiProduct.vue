@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useLoading } from 'vue-loading-overlay';
 import {
@@ -23,6 +24,8 @@ const props = defineProps({
     default: null,
   },
 });
+
+const $router = useRouter();
 
 const $store = useStore();
 
@@ -101,15 +104,10 @@ const submit = async () => {
       color: 'success',
     });
   } catch (error) {
-    window.log(error);
-    if (error.response) {
-      $store.dispatch('notif', {
-        message: error.response.data.code + ' | ' + error.response.data.code,
-        color: 'danger',
-      });
-    }
+    $store.dispatch('error', error);
   }
   loader.hide();
+  $router.push('/dashboard');
 };
 </script>
 

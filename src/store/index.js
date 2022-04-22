@@ -142,7 +142,7 @@ export default createStore({
     async token({ commit, dispatch }, payload = null) {
       if (payload) {
         try {
-          const res = await axios.post(
+          await axios.post(
             'https://www.alpha-stock.com/wp-json/jwt-auth/v1/token/validate',
             {},
             { headers: { authorization: 'Bearer ' + payload } }
@@ -152,17 +152,10 @@ export default createStore({
             value: payload,
           });
         } catch (error) {
-          if (error.response) {
-            if (error.response.data.message === 'Expired token') {
-              dispatch('token');
-            } else {
-              dispatch('notif', {
-                message:
-                  error.response.data.code + ' | ' + error.response.data.code,
-                color: 'danger',
-              });
-            }
+          if (error?.response.data.message === 'Expired token') {
+            dispatch('token');
           }
+          dispatch('error', error);
         }
       } else {
         try {
@@ -179,13 +172,7 @@ export default createStore({
           });
           localStorage.setItem('token', res.data.token);
         } catch (error) {
-          if (error.response) {
-            dispatch('notif', {
-              message:
-                error.response.data.code + ' | ' + error.response.data.code,
-              color: 'danger',
-            });
-          }
+          dispatch('error', error);
         }
       }
     },
@@ -199,42 +186,35 @@ export default createStore({
         });
       } else {
         try {
-          const attrs = [];
           const res = await window.api.get('products/attributes');
-          if (res.status !== 200) {
-            dispatch('notif', {
-              message: 'خطایی رخ داده است!',
-              color: 'danger',
-            });
-          } else {
-            for (const attr of res.data) {
-              const res = await window.api.get(
-                `products/attributes/${attr.id}/terms`,
-                {
-                  per_page: 100,
-                }
-              );
-              if (res.status !== 200) {
-                dispatch('notif', {
-                  message: 'خطایی رخ داده است!',
-                  color: 'danger',
-                });
-              } else {
-                const terms = [];
-                for (const term of res.data) {
-                  terms.push({
-                    id: term.id,
-                    name: term.name,
-                    slug: term.slug,
-                  });
-                }
-                attrs.push({
-                  id: attr.id,
-                  name: attr.name,
-                  slug: attr.slug,
-                  terms,
+          const attrs = [];
+          for (const attr of res.data) {
+            const res = await window.api.get(
+              `products/attributes/${attr.id}/terms`,
+              {
+                per_page: 100,
+              }
+            );
+            if (res.status !== 200) {
+              dispatch('notif', {
+                message: 'خطایی رخ داده است!',
+                color: 'danger',
+              });
+            } else {
+              const terms = [];
+              for (const term of res.data) {
+                terms.push({
+                  id: term.id,
+                  name: term.name,
+                  slug: term.slug,
                 });
               }
+              attrs.push({
+                id: attr.id,
+                name: attr.name,
+                slug: attr.slug,
+                terms,
+              });
             }
           }
           commit('basic', {
@@ -243,10 +223,7 @@ export default createStore({
           });
           localStorage.setItem('attrs', JSON.stringify(attrs));
         } catch (error) {
-          dispatch('notif', {
-            message: 'خطایی رخ داده است!',
-            color: 'danger',
-          });
+          dispatch('error', error);
         }
       }
     },
@@ -256,6 +233,26 @@ export default createStore({
       commit('notification', payload);
       state.notification.show = true;
       setTimeout(() => (state.notification.show = false), 15000);
+    },
+
+    // handle error message (log and notif error)
+    error({ dispatch }, err) {
+      window.log(err);
+      if (err.response) {
+        dispatch('notif', {
+          message:
+            'خطایی رخ داده است! ' +
+            err.response.status +
+            ': ' +
+            err.response.data.message,
+          color: 'danger',
+        });
+      } else {
+        dispatch('notif', {
+          message: 'خطایی رخ داده است! ' + err.toString(),
+          color: 'danger',
+        });
+      }
     },
   },
 });
