@@ -1,2 +1,5 @@
 attr term name instead of slug:
 get_term_by('slug', $attribute, str_replace( 'attribute_', '', wc_attribute_taxonomy_slug( $attribute_name ) ))->name
+
+replace product status instead date:
+<td>{{ item.date_created.replace('T', ' | ') }}</td>

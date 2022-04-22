@@ -132,7 +132,7 @@ const showPrice = (num) => {
         <th>قیمت</th>
         <th>نوع</th>
         <th>بارکد</th>
-        <th>تاریخ</th>
+        <th>وضعیت</th>
         <th />
       </tr>
     </thead>
@@ -153,7 +153,8 @@ const showPrice = (num) => {
         <td v-if="item.type === 'simple'">ساده</td>
         <td v-else-if="item.type === 'variable'">متغییر</td>
         <td>{{ item.sku }}</td>
-        <td>{{ item.date_created.replace('T', ' | ') }}</td>
+        <td v-if="item.status === 'publish'">منتشر شده</td>
+        <td v-else-if="item.status === 'draft'">ذخیره شده</td>
         <td class="actions-cell">
           <jb-buttons type="justify-start lg:justify-end" no-wrap>
             <!-- <jb-button
