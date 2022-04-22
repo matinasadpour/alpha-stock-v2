@@ -9,7 +9,7 @@ import {
   mdiMenu,
   mdiThemeLightDark,
   mdiPalette,
-  mdiUpdate,
+  mdiDatabaseRefresh,
 } from '@mdi/js';
 import NavBarItem from '@/components/NavBarItem.vue';
 import NavBarItemLabel from '@/components/NavBarItemLabel.vue';
@@ -104,7 +104,7 @@ const updateTerms = () => {
           @click.prevent="updateTerms"
         >
           <nav-bar-item-label
-            :icon="mdiUpdate"
+            :icon="mdiDatabaseRefresh"
             label="Update"
             is-desktop-icon-only
           />

@@ -241,6 +241,33 @@ export default createStore({
       }
     },
 
+    // get products list (first page)
+    async getProducts({ commit, dispatch }, payload = null) {
+      if (payload) {
+        commit('basic', {
+          key: 'products',
+          value: JSON.parse(payload),
+        });
+      } else {
+        const loader = $loading.show({
+          color: '#ffffff',
+          backgroundColor: '#000000',
+          canCancel: true,
+        });
+        try {
+          const res = await window.api.get(`products`, { per_page: 20 });
+          commit('basic', {
+            key: 'products',
+            value: res,
+          });
+          localStorage.setItem('products', JSON.stringify(res));
+        } catch (error) {
+          dispatch('error', error);
+        }
+        loader.hide();
+      }
+    },
+
     // show notification
     notif({ commit, state }, payload) {
       commit('notification', payload);

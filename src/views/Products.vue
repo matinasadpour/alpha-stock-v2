@@ -1,10 +1,21 @@
 <script setup>
 import { ref } from 'vue';
-import { mdiClipboardListOutline } from '@mdi/js';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { mdiClipboardListOutline, mdiRefreshCircle } from '@mdi/js';
 import TitleBar from '@/components/TitleBar.vue';
 import ProductsTable from '@/components/ProductsTable.vue';
 import MainSection from '@/components/MainSection.vue';
 import CardComponent from '@/components/CardComponent.vue';
+
+const $router = useRouter();
+
+const $store = useStore();
+
+const refresh = async () => {
+  await $store.dispatch('getProducts');
+  $router.go();
+};
 
 const titleStack = ref(['محصولات', 'لیست محصولات']);
 </script>
@@ -16,8 +27,9 @@ const titleStack = ref(['محصولات', 'لیست محصولات']);
       class="mb-6"
       title="محصولات"
       :icon="mdiClipboardListOutline"
-      :headerIcon="false"
+      :headerIcon="mdiRefreshCircle"
       has-table
+      @header-icon-click="refresh"
     >
       <products-table />
     </card-component>

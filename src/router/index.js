@@ -60,6 +60,22 @@ const routes = [
     name: 'newSale',
     component: () => import('@/views/NewSale.vue'),
   },
+  {
+    meta: {
+      title: 'Sales',
+    },
+    path: '/sales',
+    name: 'sales',
+    component: () => import('@/views/Sales.vue'),
+  },
+  {
+    meta: {
+      title: 'Online Orders',
+    },
+    path: '/onlineOrders',
+    name: 'onlineOrders',
+    component: () => import('@/views/OnlineOrders.vue'),
+  },
 ];
 
 const router = createRouter({

@@ -23,17 +23,7 @@ const $store = useStore();
 
 const $loading = useLoading();
 
-const data = ref(null);
-
-onBeforeMount(async () => {
-  const loader = $loading.show({
-    color: '#ffffff',
-    backgroundColor: '#000000',
-    canCancel: true,
-  });
-  data.value = await window.api.get(`products`, { per_page: 20 });
-  loader.hide();
-});
+const data = ref($store.state.products);
 
 const items = computed(() => data.value.data);
 

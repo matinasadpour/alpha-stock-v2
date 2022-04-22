@@ -13,6 +13,10 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 // Locoal Storage
 store.dispatch('token', localStorage['token'] ? localStorage['token'] : null);
 store.dispatch('getAttr', localStorage['attrs'] ? localStorage['attrs'] : null);
+store.dispatch(
+  'getProducts',
+  localStorage['products'] ? localStorage['products'] : null
+);
 
 /* App style */
 if (localStorage[styleKey]) {

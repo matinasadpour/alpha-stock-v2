@@ -50,7 +50,7 @@ export default [
   'وب سایت',
   [
     {
-      to: '/orders',
+      to: '/onlineOrders',
       label: 'سفارش‌های آنلاین',
       icon: mdiCloudPrint,
     },
