@@ -52,6 +52,14 @@ const routes = [
     name: 'products',
     component: () => import('@/views/Products.vue'),
   },
+  {
+    meta: {
+      title: 'New Sale',
+    },
+    path: '/newSale',
+    name: 'newSale',
+    component: () => import('@/views/NewSale.vue'),
+  },
 ];
 
 const router = createRouter({

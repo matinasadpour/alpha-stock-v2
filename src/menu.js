@@ -3,7 +3,7 @@ import {
   mdiPlus,
   mdiPencil,
   mdiFormatListBulletedType,
-  mdiCartPlus,
+  mdiBasketPlus,
   mdiClipboardTextClock,
   mdiCloudPrint,
 } from '@mdi/js';
@@ -37,20 +37,20 @@ export default [
   'فروشگاه',
   [
     {
-      to: '/newCart',
-      label: 'ثبت سفارش جدید',
-      icon: mdiCartPlus,
+      to: '/newSale',
+      label: 'ثبت خرید جدید',
+      icon: mdiBasketPlus,
     },
     {
-      to: '/history',
-      label: 'تاریخچه سفارشات',
+      to: '/sales',
+      label: 'تاریخچه خریدها',
       icon: mdiClipboardTextClock,
     },
   ],
   'وب سایت',
   [
     {
-      to: '/sales',
+      to: '/orders',
       label: 'سفارش‌های آنلاین',
       icon: mdiCloudPrint,
     },

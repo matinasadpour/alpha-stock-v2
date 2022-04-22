@@ -1,7 +1,10 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import { useLoading } from 'vue-loading-overlay';
 import { darkModeKey, styleKey } from '@/config.js';
 import * as styles from '@/styles.js';
+
+const $loading = useLoading();
 
 export default createStore({
   state: {
@@ -185,6 +188,11 @@ export default createStore({
           value: JSON.parse(payload),
         });
       } else {
+        const loader = $loading.show({
+          color: '#ffffff',
+          backgroundColor: '#000000',
+          canCancel: true,
+        });
         try {
           const res = await window.api.get('products/attributes');
           const attrs = [];
@@ -222,9 +230,14 @@ export default createStore({
             value: attrs,
           });
           localStorage.setItem('attrs', JSON.stringify(attrs));
+          dispatch('notif', {
+            message: 'ویژگی محصولات بروزرسانی شد.',
+            color: 'success',
+          });
         } catch (error) {
           dispatch('error', error);
         }
+        loader.hide();
       }
     },
 
