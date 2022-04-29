@@ -17,6 +17,10 @@ store.dispatch(
   'getProducts',
   localStorage['products'] ? localStorage['products'] : null
 );
+store.dispatch(
+  'getOnlineOrders',
+  localStorage['onlineOrders'] ? localStorage['onlineOrders'] : null
+);
 
 /* App style */
 if (localStorage[styleKey]) {

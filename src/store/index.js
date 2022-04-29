@@ -55,6 +55,7 @@ export default createStore({
 
     /* Sample data */
     products: null,
+    onlineOrders: null,
   },
   mutations: {
     /* A fit-them-all commit */
@@ -261,6 +262,32 @@ export default createStore({
             value: res,
           });
           localStorage.setItem('products', JSON.stringify(res));
+        } catch (error) {
+          dispatch('error', error);
+        }
+        loader.hide();
+      }
+    },
+
+    async getOnlineOrders({ commit, dispatch }, payload = null) {
+      if (payload) {
+        commit('basic', {
+          key: 'onlineOrders',
+          value: JSON.parse(payload),
+        });
+      } else {
+        const loader = $loading.show({
+          color: '#ffffff',
+          backgroundColor: '#000000',
+          canCancel: true,
+        });
+        try {
+          const res = await window.api.get(`orders`, { per_page: 20 });
+          commit('basic', {
+            key: 'onlineOrders',
+            value: res,
+          });
+          localStorage.setItem('onlineOrders', JSON.stringify(res));
         } catch (error) {
           dispatch('error', error);
         }
