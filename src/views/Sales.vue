@@ -17,6 +17,7 @@ const titleStack = ref(['فروشگاه', 'تاریخچه خریدها']);
       title="تاریخچه خریدها"
       :icon="mdiClipboardTextClock"
       has-table
+      :headerIcon="false"
     >
       <sales-table />
     </card-component>

@@ -514,7 +514,12 @@ const submit = async () => {
       >
         <level>
           <jb-buttons>
-            <jb-button @click="submit" color="success" label="ثبت" />
+            <jb-button
+              @click="submit"
+              color="success"
+              label="ثبت"
+              :disabled="!items.length"
+            />
             <jb-button
               @click="clear()"
               color="warning"

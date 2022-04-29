@@ -254,7 +254,7 @@ const print = async () => {
   <table>
     <thead>
       <tr>
-        <th>شماره سفارش</th>
+        <th>شماره خرید</th>
         <th>قیمت کل</th>
         <th>تخفیف</th>
         <th>جمع کل</th>
@@ -269,18 +269,18 @@ const print = async () => {
       </tr>
       <tr v-for="item in data.items" :key="item.order">
         <td>{{ item.order }}</td>
-        <td>{{ showPrice(item.total.price) }} تومان</td>
+        <td>{{ showPrice(+item.total.price) }} تومان</td>
         <td v-if="item.total.offer">%{{ item.total.offer }}</td>
         <td v-else></td>
         <td v-if="item.total.offer">
           {{
             showPrice(
-              item.total.price - (item.total.price * item.total.offer) / 100
+              +item.total.price - (+item.total.price * item.total.offer) / 100
             )
           }}
           تومان
         </td>
-        <td v-else>{{ showPrice(item.total.price) }} تومان</td>
+        <td v-else>{{ showPrice(+item.total.price) }} تومان</td>
         <td>{{ item.total.count }}</td>
         <td>{{ item.total.description }}</td>
         <td class="actions-cell">
