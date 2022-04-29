@@ -118,7 +118,7 @@ const showPrice = (num) => {
       <tr>
         <th>ID</th>
         <th>تصویر</th>
-        <th>نام</th>
+        <th>محصول</th>
         <th>قیمت</th>
         <th>نوع</th>
         <th>بارکد</th>
@@ -127,6 +127,9 @@ const showPrice = (num) => {
       </tr>
     </thead>
     <tbody>
+      <tr v-if="!items.length">
+        <td colspan="8" class="text-center">موردی وجود ندارد!</td>
+      </tr>
       <tr v-for="item in items" :key="item.id">
         <td>{{ item.id }}</td>
         <td>
