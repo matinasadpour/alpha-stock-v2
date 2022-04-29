@@ -79,7 +79,8 @@ const addItem = async (sku) => {
 
 const scannerEvent = async (e) => {
   if (e.key === 'Enter') {
-    if (barcode.startsWith('prod-')) {
+    if (barcode.startsWith('prod-') || barcode.startsWith('حقخی-')) {
+      if (barcode.startsWith('حقخی-')) barcode.replace('حقخی-', 'prod-');
       await addItem(barcode);
       setTimeout(() => {
         window.scrollTo({
@@ -286,7 +287,8 @@ const print = async () => {
               <td>جمع کل</td>
               <td style="background-color: black; color: white;">
               ${showPrice(
-                total.price - (total.price * total.offer) / 100
+                objToPrint.total.price -
+                  (objToPrint.total.price * objToPrint.total.offer) / 100
               )} تومان
               </td>
             </tr>

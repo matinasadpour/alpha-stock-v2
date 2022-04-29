@@ -105,6 +105,20 @@ window.db = {
     fs.appendFileSync('./alpha-stock/db', JSON.stringify(obj) + '\n');
     return obj;
   },
+  get: (page) => {
+    const data = fs.readFileSync('./alpha-stock/db', { encoding: 'utf-8' });
+    const arr = data.split('\n');
+    arr.pop();
+    arr.reverse();
+    const items = arr.slice((page - 1) * 20, page * 20);
+    for (const [i, item] of items.entries()) {
+      items[i] = JSON.parse(item);
+    }
+    return {
+      size: arr.length,
+      items,
+    };
+  },
 };
 window.log = (log) => {
   fs.appendFileSync(

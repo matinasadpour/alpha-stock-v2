@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onBeforeMount, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useLoading } from 'vue-loading-overlay';
