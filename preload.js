@@ -92,9 +92,9 @@ window.qz = qz;
 window.db = {
   save: (items, total) => {
     if (localStorage.getItem('lastOrder')) {
-      localStorage.setItem('lastOrder', 1);
-    } else {
       localStorage.setItem('lastOrder', +localStorage.getItem('lastOrder') + 1);
+    } else {
+      localStorage.setItem('lastOrder', 1);
     }
     const obj = {
       items,

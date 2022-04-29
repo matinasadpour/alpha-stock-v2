@@ -1,7 +1,8 @@
 <script setup>
 import { ref, watch, onBeforeMount, onUnmounted } from 'vue';
-import { useLoading } from 'vue-loading-overlay';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useLoading } from 'vue-loading-overlay';
 import { mdiTrashCan, mdiBasket } from '@mdi/js';
 import MainSection from '@/components/MainSection.vue';
 import CardComponent from '@/components/CardComponent.vue';
@@ -9,6 +10,8 @@ import JbButtons from '@/components/JbButtons.vue';
 import JbButton from '@/components/JbButton.vue';
 import Level from '@/components/Level.vue';
 import ModalBox from '@/components/ModalBox.vue';
+
+const $router = useRouter();
 
 const $store = useStore();
 
@@ -150,6 +153,11 @@ watch(
 );
 
 const print = async () => {
+  const loader = $loading.show({
+    color: '#ffffff',
+    backgroundColor: '#000000',
+    canCancel: true,
+  });
   let html = `
     <!DOCTYPE html>
     <html>
@@ -294,6 +302,7 @@ const print = async () => {
     </html>`;
 
   try {
+    await window.qz.websocket.connect();
     const config = qz.configs.create('POS-80C', { scaleContent: 'true' });
     await window.qz.print(config, [
       `\x1B\x61\x31`, // center align
@@ -317,6 +326,9 @@ const print = async () => {
   } catch (error) {
     $store.dispatch('error', error);
   }
+  if (window.qz.websocket.isActive()) await window.qz.websocket.disconnect();
+  loader.hide();
+  $router.push('/dashboard');
 };
 
 const submit = async () => {
@@ -367,6 +379,7 @@ const submit = async () => {
     has-cancel
     buttonLabel="بله"
     @confirm="print"
+    @cancel="$router.push('/dashboard')"
   />
 
   <main-section>

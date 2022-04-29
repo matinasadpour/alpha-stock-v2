@@ -174,6 +174,7 @@ const submit = async () => {
     $store.dispatch('error', error);
   }
   loader.hide();
+  $router.push('/dashboard');
 };
 </script>
 
