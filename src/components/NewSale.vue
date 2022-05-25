@@ -311,7 +311,8 @@ const print = async () => {
       {
         type: 'raw',
         format: 'image',
-        data: '../img/logo1.png',
+        flavor: 'file',
+        data: './img/print.png',
         options: {
           language: 'ESCPOS',
           dotDensity: 'double',
