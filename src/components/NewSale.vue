@@ -277,7 +277,7 @@ const print = async () => {
               ${
                 objToPrint.total.offer
                   ? showPrice(
-                      (objToPrint.total.price * objToPrint.total.offer) / 100
+                      (+objToPrint.total.price * +objToPrint.total.offer) / 100
                     ) + ' تومان'
                   : '-'
               }
@@ -286,10 +286,12 @@ const print = async () => {
             <tr>
               <td>جمع کل</td>
               <td style="background-color: black; color: white;">
-              ${showPrice(
-                objToPrint.total.price -
-                  (objToPrint.total.price * objToPrint.total.offer) / 100
-              )} تومان
+              ${
+                showPrice(
+                  +objToPrint.total.price -
+                    (+objToPrint.total.price * +objToPrint.total.offer) / 100
+                ) + ' تومان'
+              }
               </td>
             </tr>
           </tbody>
