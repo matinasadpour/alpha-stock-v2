@@ -66,7 +66,6 @@ const print = async () => {
     backgroundColor: '#000000',
     canCancel: true,
   });
-  console.log(objToPrint);
   let html = `
     <!DOCTYPE html>
     <html>
@@ -194,10 +193,14 @@ const print = async () => {
             <tr>
               <td>جمع کل</td>
               <td style="background-color: black; color: white;">
-              ${showPrice(
-                objToPrint.total.price -
-                  (objToPrint.total.price * objToPrint.total.offer) / 100
-              )} تومان
+              ${
+                objToPrint.total.offer
+                  ? showPrice(
+                      objToPrint.total.price -
+                        (objToPrint.total.price * objToPrint.total.offer) / 100
+                    ) + ' تومان'
+                  : showPrice(objToPrint.total.price) + ' تومان'
+              }
               </td>
             </tr>
           </tbody>

@@ -225,11 +225,11 @@ const print = async () => {
           </div>
           <div class="info">
             <p>تاریخ: </p>
-            <span>${objToPrint.date.toLocaleDateString('fa')}</span>
+            <span>${new Date(objToPrint.date).toLocaleDateString('fa')}</span>
           </div>
           <div class="info">
             <p>ساعت: </p>
-            <span>${objToPrint.date.toLocaleTimeString('fa')}</span>
+            <span>${new Date(objToPrint.date).toLocaleTimeString('fa')}</span>
           </div>
 
         </div>
@@ -277,7 +277,7 @@ const print = async () => {
               ${
                 objToPrint.total.offer
                   ? showPrice(
-                      (+objToPrint.total.price * +objToPrint.total.offer) / 100
+                      (objToPrint.total.price * objToPrint.total.offer) / 100
                     ) + ' تومان'
                   : '-'
               }
@@ -287,10 +287,12 @@ const print = async () => {
               <td>جمع کل</td>
               <td style="background-color: black; color: white;">
               ${
-                showPrice(
-                  +objToPrint.total.price -
-                    (+objToPrint.total.price * +objToPrint.total.offer) / 100
-                ) + ' تومان'
+                objToPrint.total.offer
+                  ? showPrice(
+                      objToPrint.total.price -
+                        (objToPrint.total.price * objToPrint.total.offer) / 100
+                    ) + ' تومان'
+                  : showPrice(objToPrint.total.price) + ' تومان'
               }
               </td>
             </tr>
